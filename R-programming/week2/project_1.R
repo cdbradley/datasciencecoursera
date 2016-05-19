@@ -1,17 +1,8 @@
-columnmean <- function(x, removeNA = TRUE){
-  nc <- ncol(x)
-  means <- numeric(nc)
-  for(i in 1:nc){
-    means[i] <- mean(x[,i], na.rm = removeNA)
-  }
-  means
-}
-
 pollutantmean<-function(directory, pollutant, id = 1:332){
   oldir<-getwd()
   setwd(directory)
-  means<-numeric(length(id))
-  for (i in length(id)){
+  means<-numeric()
+  for (i in (1:length(id))){
     num<-as.character(id[i])
     if (nchar(num)==1){
       num<-paste("00", num,sep="")
@@ -21,17 +12,16 @@ pollutantmean<-function(directory, pollutant, id = 1:332){
     }
     csv<-read.csv(paste(num,"csv",sep="."))
     data<-csv[[pollutant]]
-    means[i]<-mean(data,na.rm = TRUE)
-  }
+    means[i]<-mean(data,na.rm = TRUE)  }
   setwd(oldir)
-  mean(means)
+  means
 }
 
 complete <-function(directory, id = 1:332){
   oldir<-getwd()
   setwd(directory)
   dfr<-read.table(text="", col.names = c("id","nobs"))
-  for (i in length(id)){
+  for (i in (1:length(id))){
     nobs<-0
     num<-as.character(id[i])
     if (nchar(num)==1){
@@ -55,7 +45,7 @@ corr <-function(directory, threshhold=0){
   id<-1:332
   l<-list()
   q=1
-  for (i in length(id)){
+  for (i in (1:length(id))){
     nobs<-0
     num<-as.character(id[i])
     if (nchar(num)==1){
